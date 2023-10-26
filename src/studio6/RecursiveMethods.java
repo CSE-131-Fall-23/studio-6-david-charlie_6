@@ -1,5 +1,7 @@
 package studio6;
 
+import java.lang.reflect.Array;
+
 import edu.princeton.cs.introcs.StdDraw;
 
 public class RecursiveMethods {
@@ -12,10 +14,8 @@ public class RecursiveMethods {
 	 *         ...)
 	 */
 	public static double geometricSum(int n) {
-		
-			// FIXME compute the geometric sum for the first n terms recursively
-			return 0;
-		
+		if (n==0) return 0;
+		else return Math.pow(0.5, n)+geometricSum(n-1);
 	}
 
 	/**
@@ -27,10 +27,9 @@ public class RecursiveMethods {
 	 * @return greatest common divisor of p and q
 	 */
 	public static int gcd(int p, int q) {
-		
-			// FIXME compute the gcd of p and q using recursion
-			return 0;
-		
+		if (p<q) return gcd(q,p);
+		if (p%q==0) return q;
+		return gcd(q,p%q);
 	}
 
 	
@@ -41,11 +40,18 @@ public class RecursiveMethods {
 	 * @param array the array to create a reverse of, not to be mutated
 	 * @return an array with the same data as the input but it reverse order
 	 */
+	public static int[] reverse(int[] array,int[] newArray,int index,int upperbound)
+	{
+		if (index>upperbound) return newArray;
+		newArray[index]=array[upperbound-index];
+		return reverse(array,newArray,index+1,upperbound);
+	}
+	
 	public static int[] toReversed(int[] array) {
-		
-			// FIXME create a helper method that can recursively reverse the given array
-			return new int[0];
-		
+		int[] newArray = new int[array.length];
+		if (newArray.length<=0) return newArray;
+		else newArray=reverse(array,newArray,0,array.length-1);
+		return newArray;
 	}
 
 	/**
@@ -59,8 +65,23 @@ public class RecursiveMethods {
 	 */
 	public static void circlesUponCircles(double xCenter, double yCenter, double radius,
 			double radiusMinimumDrawingThreshold) {
-		
+		if (radius<=radiusMinimumDrawingThreshold) return;
+		StdDraw.circle(xCenter, yCenter, radius);
+		circlesUponCircles(xCenter-radius,yCenter,radius/3.0,radiusMinimumDrawingThreshold);
+		circlesUponCircles(xCenter,yCenter+radius,radius/3.0,radiusMinimumDrawingThreshold);
+		circlesUponCircles(xCenter+radius,yCenter,radius/3.0,radiusMinimumDrawingThreshold);
+		circlesUponCircles(xCenter,yCenter-radius,radius/3.0,radiusMinimumDrawingThreshold);
 		// FIXME
+	}
+	
+	public static void main(String args[])
+	{
+		int[] array= {7,7,7,93,11};
+		int[] array1 = toReversed(array);
+		for (int i=0; i<=array1.length-1; i++)
+		{
+			System.out.println(array1[i]);
+		}
 	}
 
 }
